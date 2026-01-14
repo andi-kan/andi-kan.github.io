@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANDY'S ART AND INTERIORS— Architecture & Art</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --charcoal: #0a0a0a;
+            --warm-grey: #2a2a2a;
+            --stone: #4a4a4a;
+            --off-white: #f8f6f3;
+            --muted-gold: #c9a961;
+            --serif: 'Cormorant Garamond', serif;
+            --sans: 'Montserrat', sans-serif;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background: var(--charcoal);
+            color: var(--off-white);
+            font-family: var(--sans);
+            font-weight: 300;
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+        
+        /* Smooth Scroll Container */
+        #smooth-wrapper {
+            position: relative;
+        }
+        
+        /* Hero Section - Full Bleed */
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            z-index: 1;
+        }
+        
+        .hero-background::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.35);
+            z-index: 2;
+        }
+        
+        .hero-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,.03) 2px, rgba(255,255,255,.03) 4px);
+            z-index: 3;
+            opacity: 0.4;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            opacity: 0;
+            animation: heroEntrance 2s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+        }
+        
+        @keyframes heroEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .logo {
+    width: 200px;        /* This makes the box wider */
+    height: 200px;       /* This makes the box taller */
+    margin: 0 auto 4rem; /* This adds luxury space below it */
+    border: none;        /* This removes the old square line */
+    display: flex;       /* This centers the image inside */
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    animation: logoFade 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.8s forwards;
+}
+        
+        @keyframes logoFade {
+            to { opacity: 1; }
+        }
+        
+        .brand-name {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 6vw, 5rem); /* Made slightly smaller for the spacing */
+    text-transform: uppercase;
+    letter-spacing: 0.1em; /* <--- This adds the luxury spacing */
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+        
+        .motto {
+    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+    letter-spacing: 0.3em; /* <--- Extra wide for a "gallery" look */
+    text-transform: uppercase;
+    color: var(--muted-gold);
+    font-weight: 300;
+    margin-top: 2rem;
+}
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 4rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            opacity: 0;
+            animation: scrollFade 1s ease 2.5s forwards;
+        }
+        
+        @keyframes scrollFade {
+            to { opacity: 0.6; }
+        }
+        
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, transparent, var(--muted-gold));
+            margin: 0 auto 1rem;
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; transform: scaleY(1); }
+            50% { opacity: 1; transform: scaleY(1.2); }
+        }
+        
+        .scroll-text {
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--stone);
+        }
+        
+        /* Navigation - Fixed */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 2.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent);
+            backdrop-filter: blur(10px);
+            transition: background 0.4s ease;
+        }
+        
+        nav.scrolled {
+            background: rgba(10,10,10,0.98);
+            box-shadow: 0 1px 0 rgba(201, 169, 97, 0.1);
+        }
+        
+        .nav-logo {
+            font-family: var(--serif);
+            font-size: 1.25rem;
+            letter-spacing: 0.05em;
+            color: var(--muted-gold);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 10px;
+            scrollbar-width: none;
+        }
+        
+        .nav-links::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .nav-links a {
+            color: var(--off-white);
+            text-decoration: none;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--muted-gold);
+            transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        .nav-links a:hover {
+            color: var(--muted-gold);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Section Container */
+        section {
+            padding: 8rem 4rem;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            margin-bottom: 5rem;
+        }
+        
+        .section-number {
+            font-size: 0.875rem;
+            letter-spacing: 0.2em;
+            color: var(--muted-gold);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title {
+            font-family: var(--serif);
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+        
+        /* Portfolio Grid */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 6rem;
+        }
+        
+        .portfolio-item {
+            position: relative;
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            background: var(--warm-grey);
+            cursor: pointer;
+            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        .portfolio-item:hover {
+            transform: scale(0.98);
+        }
+        
+        .portfolio-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1), filter 0.6s ease;
+            background: linear-gradient(135deg, var(--warm-grey), var(--stone));
+        }
+        
+        .portfolio-item:hover .portfolio-image {
+            transform: scale(1.08);
+            filter: brightness(1.1);
+        }
+        
+        .portfolio-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 3rem;
+            background: linear-gradient(to top, rgba(10,10,10,0.95) 0%, transparent 100%);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .portfolio-title {
+            font-family: var(--serif);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+        }
+        
+        .portfolio-meta {
+            font-size: 0.875rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted-gold);
+        }
+        
+        /* Archive Button */
+        .archive-section {
+            text-align: center;
+            padding: 6rem 4rem;
+            background: linear-gradient(135deg, var(--warm-grey), var(--charcoal));
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .archive-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--muted-gold), transparent);
+        }
+        
+        .archive-section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--muted-gold), transparent);
+        }
+        
+        .archive-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.75rem 4rem;
+            background: transparent;
+            border: 2px solid var(--muted-gold);
+            color: var(--off-white);
+            font-family: var(--sans);
+            font-size: 1rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        .archive-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--muted-gold);
+            transition: left 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            z-index: -1;
+        }
+        
+        .archive-button:hover {
+            color: var(--charcoal);
+            border-color: var(--muted-gold);
+        }
+        
+        .archive-button:hover::before {
+            left: 0;
+        }
+        
+        .archive-icon {
+            font-size: 1.25rem;
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            padding: 10rem 4rem;
+            text-align: center;
+            background: var(--charcoal);
+        }
+        
+        .contact-headline {
+            font-family: var(--serif);
+            font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 600;
+            margin-bottom: 3rem;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+        
+        .contact-subtext {
+                font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #4a4a4a;
+        }
+        
+        .contact-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 2rem 5rem;
+            background: var(--muted-gold);
+            border: none;
+            color: var(--charcoal);
+            font-family: var(--sans);
+            font-size: 1.125rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: 0 20px 40px rgba(201, 169, 97, 0.3);
+        }
+        
+        .contact-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 30px 60px rgba(201, 169, 97, 0.4);
+        }
+        
+        .contact-methods {
+            margin-top: 4rem;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .contact-methods a {
+            color: var(--stone);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .contact-methods a:hover {
+            color: var(--muted-gold);
+        }
+        
+        /* Fast Scroll Button */
+        .fast-scroll {
+            position: fixed;
+            bottom: 3rem;
+            right: 3rem;
+            width: 56px;
+            height: 56px;
+            background: var(--muted-gold);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: 0 10px 30px rgba(201, 169, 97, 0.3);
+        }
+        
+        .fast-scroll.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .fast-scroll:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(201, 169, 97, 0.5);
+        }
+        
+        .fast-scroll svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--charcoal);
+        }
+        
+        /* Footer */
+        footer {
+            padding: 4rem;
+            text-align: center;
+            border-top: 1px solid rgba(201, 169, 97, 0.2);
+            font-size: 0.875rem;
+            letter-spacing: 0.08em;
+            color: var(--stone);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            nav {
+                padding: 2rem;
+            }
+            
+            section {
+                padding: 6rem 2rem;
+            }
+            
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .nav-links {
+                gap: 1.0rem;
+                font-size: 0.75rem;
+            }
+            
+            .archive-button,
+            .contact-button {
+                padding: 1.5rem 3rem;
+                font-size: 0.95rem;
+            }
+            
+            .contact-methods {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+        
+        /* Grain Texture */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: overlay;
+        }
+   @media (max-width: 768px) {
+    .contact-headline {
+        font-size: 2.5rem !important; /* Makes it small enough to fit */
+        text-align: center !important; /* Pulls it to the middle */
+        width: 100%;
+        line-height: 1.2;
+        display: block;
+    }
+}
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <div class="nav-logo"><img src="logo.png" style="height: 30px; width: auto;"></div>
+        <div class="nav-links">
+            <a href="#cad">ArchViz</a>
+<a href="#art">Artworks</a>
+            <a href="#archive">Archive</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+    
+    <div id="smooth-wrapper">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-background"></div>
+            <div class="hero-content">
+                <div class="logo"><img src="logo.png" style="width: 100%; height: auto;"></div>
+                <h1 class="brand-name">Andy's Art and Interiors</h1>
+                <p class="motto">Crafting Interiors, Curating Arts</p>
+            </div>
+            <div class="scroll-indicator">
+                <div class="scroll-line"></div>
+                <div class="scroll-text">Explore</div>
+            </div>
+        </section>
+        
+        <!-- Portfolio Section -->
+        <section id="portfolio">
+            <div id="cad"></div>
+            <div class="section-header">
+                <div class="section-number">01 — Selected Works</div>
+                <h2 class="section-title">Precision in form.<br>Purpose in space.</h2>
+            </div>
+            
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <div class="portfolio-image"><img src="ivy.jpg" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">The Ivy Vault</h3>
+                        <div class="portfolio-meta">Port-Harcourt, 2024</div>
+                    </div>
+                </div>
+                
+                <div id="cad"></div>
+                
+                <div class="portfolio-item">
+    <div class="portfolio-image">
+        <img src="Strata House 1.jpg" style="width: 100%; height: 100%; object-fit: cover;">
+    </div>
+    <div class="portfolio-overlay">
+        <h3 class="portfolio-title">Strata House</h3>
+        <div class="portfolio-meta">UYO | 2025</div>
+    </div>
+</div>
+                
+                <div class="portfolio-item">
+                    <div class="portfolio-image"><img src="Cuisine Élégante 1.jpg" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Cuisine Élégante</h3>
+                        <div class="portfolio-meta">Uyo, 2025</div>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item">
+                    <div class="portfolio-image"><img src="Terra Curata 1.1.jpg" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Terra Curata</h3>
+                        <div class="portfolio-meta">Uyo, 2025</div>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item">
+                    <div class="portfolio-image"><img src="The Petal Suite 4.jpg" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">The Petal Suite</h3>
+                        <div class="portfolio-meta">Uyo, 2025</div>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item">
+                    <div class="portfolio-image"><img src="Lunar Loft .jpg" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Lunar Loft </h3>
+                        <div class="portfolio-meta">Uyo, 2025</div>
+                    </div>
+                </div>
+                
+                <div id="art"></div>
+                
+                <div class="portfolio-item">
+                    <div class="portfolio-image"><img src="Essence.jpg" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Essence</h3>
+                        <div class="portfolio-meta">Uyo, 2024</div>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item">
+                    <div class="portfolio-image"><img src="Radiance.jpg" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Radiance</h3>
+                        <div class="portfolio-meta">Port Harcourt, 2024</div>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item">
+                    <div class="portfolio-image"><img src="Shades of Joy.jpg" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Shades of Joy</h3>
+                        <div class="portfolio-meta">Port Harcourt, 2024</div>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item">
+                    <div class="portfolio-image"><img src="The Matriarch.jpg" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">The Matriarch</h3>
+                        <div class="portfolio-meta">Canada, 2024</div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+        
+        <!-- Archive Section -->
+        <section id="archive" class="archive-section">
+            <h2 class="section-title" style="margin-bottom: 2rem;">Complete Portfolio</h2>
+            <p style="color: var(--stone); margin-bottom: 3rem; font-size: 1.125rem; letter-spacing: 0.03em;">
+                Access our full project archive, technical drawings, and case studies.
+            </p>
+            <a href="https://drive.google.com/drive/folders/16A-AiG2IcaJeF91SqZzHJ9pz8zSHutvB" target="_blank" class="archive-button">
+                <span>View Complete Archive</span>
+                <span class="archive-icon">→</span>
+            </a>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section">
+            <h2 class="contact-headline">Start a<br>Conversation</h2>
+            <p class="contact-subtext">Let's discuss your vision.</p>
+           <a href="https://wa.me/2349032718627" class="contact-button" target="_blank">
+                <span>Message Us</span>
+            </a>
+            <div class="contact-methods">
+                <a href="mailto:andysart015@gmail.com">andysart015@gmail.com</a>
+                <a href="https://wa.me/2349032718627">WhatsApp</a>
+                <a href="tel:+234903271862">+234 903 271 8627</a>
+            </div>
+        </section>
+        
+        <footer>
+            <p>ANDY'S ART AND INTERIORS© 2026 — UYO | NIGERIA</p>
+        </footer>
+    </div>
+    
+    <!-- Fast Scroll Button -->
+    <a href="#contact" class="fast-scroll" id="fastScrollBtn">
+    <svg viewBox="0 0 24 24" id="scrollArrow" style="width:24px; height:24px; fill:none; stroke:black; stroke-width:2; transition: transform 0.4s ease;">
+        <path d="M19 9l-7 7-7-7" /> </svg>
+</a>
+    
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        let lastScroll = 0;
+        
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            
+            lastScroll = currentScroll;
+        });
+        
+        // Smart Fast Scroll Logic
+const fastScrollBtn = document.getElementById('fastScrollBtn');
+const scrollArrow = document.getElementById('scrollArrow');
+
+window.addEventListener('scroll', () => {
+    // Show button after scrolling down 400px
+    if (window.pageYOffset > 400) {
+        fastScrollBtn.classList.add('visible');
+    } else {
+        fastScrollBtn.classList.remove('visible');
+    }
+
+    // TOGGLE DIRECTION: If we are near the bottom, point UP
+    if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 600) {
+        fastScrollBtn.setAttribute('href', '#navbar'); // Destination: Top
+        fastScrollBtn.style.transform = 'scale(1) rotate(180deg)'; // Flip arrow up
+    } else {
+        fastScrollBtn.setAttribute('href', '#contact'); // Destination: Bottom
+        fastScrollBtn.style.transform = 'scale(1) rotate(0deg)'; // Flip arrow down
+    }
+});
+    
+    // This makes the button actually scroll the page when tapped
+fastScrollBtn.addEventListener('click', (e) => {
+    e.preventDefault(); // Stops the instant jump
+    
+    // Check if we are going to #navbar or #contact
+    const targetId = fastScrollBtn.getAttribute('href');
+    const targetElement = document.querySelector(targetId);
+    
+    if (targetElement) {
+        window.scrollTo({
+            top: targetElement.offsetTop,
+            behavior: 'smooth' // This is the luxury slide
+        });
+    }
+});
+        
+        // Parallax effect on hero background
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroBackground = document.querySelector('.hero-background');
+            if (heroBackground && scrolled < window.innerHeight) {
+                heroBackground.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+        
+        // Scroll reveal for portfolio items
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.portfolio-item').forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(60px)';
+            item.style.transition = 'opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)';
+            observer.observe(item);
+        });
+        
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Parallax on portfolio images
+        document.querySelectorAll('.portfolio-item').forEach(item => {
+            item.addEventListener('mousemove', (e) => {
+                const rect = item.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const deltaX = (x - centerX) / centerX;
+                const deltaY = (y - centerY) / centerY;
+                
+                const image = item.querySelector('.portfolio-image');
+                image.style.transform = `scale(1.08) translate(${deltaX * 10}px, ${deltaY * 10}px)`;
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                const image = item.querySelector('.portfolio-image');
+                image.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

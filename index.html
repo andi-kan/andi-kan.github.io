@@ -654,7 +654,7 @@ body.context-open .blackout-trap {
 /* Ghost Image Rule: Stops the 'Save Image' popup */
 img {
     -webkit-touch-callout: none !important;
-    pointer-events: none;
+    pointer-events: aut;
 }
 
 /* Keep your button working */
@@ -956,16 +956,15 @@ fastScrollBtn.addEventListener('click', (e) => {
                 image.style.transform = 'scale(1)';
             });
             // This tells the body to turn black ONLY when a long-press/right-click is detected
-window.oncontextmenu = function(e) {
-    document.body.classList.add('context-open'); 
-    
-    // This automatically clears the black screen after 3 seconds
-    setTimeout(() => {
-        document.body.classList.remove('context-open');
-    }, 3000);
-    
-    return false; // This is the 'Bodyguard' that blocks the download menu
-};
+window.addEventListener('contextmenu', function (e) {
+    if (e.target.tagName === 'IMG') {
+        e.preventDefault(); // This blocks the 'Save' menu
+        document.body.classList.add('context-open');
+        setTimeout(() => {
+            document.body.classList.remove('context-open');
+        }, 3000);
+    }
+}, { passive: false });
         });
     </script>
 </body>

@@ -654,7 +654,7 @@ body.context-open .blackout-trap {
 /* Ghost Image Rule: Stops the 'Save Image' popup */
 img {
     -webkit-touch-callout: none !important;
-    pointer-events: aut;
+    pointer-events: auto !important; 
 }
 
 /* Keep your button working */
@@ -957,14 +957,16 @@ fastScrollBtn.addEventListener('click', (e) => {
             });
             // This tells the body to turn black ONLY when a long-press/right-click is detected
 window.addEventListener('contextmenu', function (e) {
-    if (e.target.tagName === 'IMG') {
-        e.preventDefault(); // This blocks the 'Save' menu
+    // This checks if you're touching an image OR the text/box around it
+    if (e.target.tagName === 'IMG' || e.target.closest('.portfolio-item')) {
+        e.preventDefault(); 
         document.body.classList.add('context-open');
         setTimeout(() => {
             document.body.classList.remove('context-open');
         }, 3000);
     }
 }, { passive: false });
+
         });
     </script>
 </body>

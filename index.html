@@ -662,6 +662,39 @@ img {
     pointer-events: auto !important;
 }
     
+    /* Custom Luxury View Counter */
+#secret-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    /* 1. COMPACT SIZE */
+    width: 200px !important;
+    height: 120px !important;
+    
+    /* 2. ROUNDED BEVEL: This creates the smooth corners */
+    border-radius: 20px !important;
+    
+    /* 3. THE STROKE: This follow the curves perfectly */
+    border: 1px solid #c9a961 !important;
+    
+    /* 4. BACKGROUND & BLUR */
+    background: rgba(10, 10, 10, 0.025) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    
+    /* 5. TEXT LAYOUT */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100001;
+    color: #c9a961;
+    font-family: 'Cormorant Garamond', serif;
+    letter-spacing: 2px;
+}
+    
     </style>
 </head>
 <body>
@@ -669,13 +702,19 @@ img {
     <h2 style="text-decoration: underline 1px #c9a961; display: inline-block; margin-bottom: 10px;">CURATED ACCESS</h2>
     <p>This portfolio presents selected works.
 Full project documentation is shared privately with clients.</p>
+</div> <div id="secret-popup">
+    <small style="display:block; margin-bottom:5px; color: #666; font-size: 10px;">PRIVATE ANALYTICS</small>
+    <span id="view-number" style="font-size: 2rem;">0</span>
+    <p style="font-size: 12px; margin-top: 5px;">TOTAL VIEWS</p>
 </div>
+
     <nav id="navbar">
         <div class="nav-logo"><img src="logo.png" style="height: 30px; width: auto;"></div>
         <div class="nav-links">
             <a href="#cad">ArchViz</a>
             <a href="#art">Artworks</a>
             <a href="#archive">Archive</a>
+            <a href="#reviews" class="nav-link">REVIEWS</a>
             <a href="#contact">Contact</a>
         </div>
     </nav>
@@ -689,7 +728,7 @@ Full project documentation is shared privately with clients.</p>
                 <h1 class="brand-name">Andy's Art and Interiors</h1>
                 <p class="motto">Crafting Interiors, Curating Arts</p>
             </div>
-            <div class="scroll-indicator">
+            <div id="secret-trigger" class="scroll-indicator" style="cursor: pointer;">
                 <div class="scroll-line"></div>
                 <div class="scroll-text">Explore</div>
             </div>
@@ -808,6 +847,62 @@ Full project documentation is shared privately with clients.</p>
                 <span class="archive-icon">→</span>
             </a>
         </section>
+        
+        <section id="reviews" style="padding: 80px 20px; background: #000; text-align: center; border-top: 1px solid #1a1a1a;">
+    <h2 style="color: #c9a961; letter-spacing: 5px; font-family: serif; margin-bottom: 10px;">CLIENT FEEDBACK</h2>
+    <p style="color: #666; font-size: 0.8rem; margin-bottom: 40px; letter-spacing: 1px;">RATE YOUR EXPERIENCE</p>
+
+    <form id="my-form" action="https://formspree.io/f/mpqlbqdr" method="POST" style="max-width: 500px; margin: 0 auto; text-align: left;">
+        
+        <div style="margin-bottom: 20px; text-align: center;">
+            <select name="rating" required style="background: transparent; color: #c9a961; border: 1px solid #c9a961; padding: 10px; width: 100%; border-radius: 0;">
+                <option value="5">★★★★★ - Excellent</option>
+                <option value="4">★★★★☆ - Very Good</option>
+                <option value="3">★★★☆☆ - Average</option>
+                <option value="2">★★☆☆☆ - Poor</option>
+                <option value="1">★☆☆☆☆ - Terrible</option>
+            </select>
+        </div>
+
+        <input type="text" name="name" placeholder="YOUR NAME" required style="width: 100%; background: transparent; border: none; border-bottom: 1px solid #333; color: #fff; padding: 15px 0; margin-bottom: 20px; outline: none; font-size: 0.9rem;">
+
+        <textarea name="message" placeholder="WRITE YOUR REVIEW..." required style="width: 100%; background: transparent; border: none; border-bottom: 1px solid #333; color: #fff; padding: 15px 0; margin-bottom: 30px; outline: none; font-size: 0.9rem; min-height: 100px;"></textarea>
+
+        <button type="submit" style="width: 100%; background: #c9a961; color: #000; border: none; padding: 15px; letter-spacing: 2px; font-weight: bold; cursor: pointer; transition: 0.3s;">
+            SUBMIT REVIEW
+        </button>
+    </form>
+            <div id="thank-you-message" style="display:none; text-align: center; padding: 20px;">
+    <h2 style="color: #c9a961;">THANK YOU!</h2>
+    <p style="color: #fff;">Your review has been received successfully.</p>
+</div>
+
+<script>
+  var form = document.getElementById("my-form");
+  
+  async function handleSubmit(event) {
+    event.preventDefault(); // This stops the Formspree page from opening
+    var status = document.getElementById("thank-you-message");
+    var data = new FormData(event.target);
+    
+    fetch(event.target.action, {
+      method: form.method,
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    }).then(response => {
+      if (response.ok) {
+        form.style.display = "none"; // Hide the form
+        status.style.display = "block"; // Show your thank you message
+      } else {
+        alert("Oops! There was a problem submitting your review.");
+      }
+    }).catch(error => {
+      alert("Oops! There was a problem connecting to the server.");
+    });
+  }
+  form.addEventListener("submit", handleSubmit);
+</script>
+</section>
         
         <!-- Contact Section -->
         <section id="contact" class="contact-section">
@@ -967,6 +1062,36 @@ window.addEventListener('contextmenu', function (e) {
         }, 3000);
     }
 }, { passive: false });
+            
+let clickCount = 0;
+const trigger = document.getElementById('secret-trigger');
+const popup = document.getElementById('secret-popup');
+const viewDisplay = document.getElementById('view-number');
+
+// 1. Count the visit immediately
+let currentViews = localStorage.getItem('andy_private_views') || 0;
+currentViews++;
+localStorage.setItem('andy_private_views', currentViews);
+
+// 2. Listen for the 5 clicks on "Explore"
+trigger.addEventListener('click', function() {
+    clickCount++;
+    if (clickCount === 5) {
+        viewDisplay.innerText = localStorage.getItem('andy_private_views');
+popup.style.display = 'flex'; // This centers the text inside your beveled box
+
+
+        // 3. Close automatically after 2 seconds
+        setTimeout(() => {
+            popup.style.display = 'none';
+        }, 2000);
+        
+        clickCount = 0; 
+    }
+    // Resets if you take too long between clicks
+    setTimeout(() => { clickCount = 0; }, 3000);
+});
+
 
         });
     </script>
